@@ -1,65 +1,201 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import React from "react";
+
+const INITIAL_CAPITAL = 1_000_000;
+
+function formatDollars(x: number): string {
+  return "$" + x.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export default function LandingPage() {
+  const [playerName, setPlayerName] = React.useState("");
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(circle at top, #1e293b 0, #020617 45%, #000 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 16,
+        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          maxWidth: 960,
+          height: 540,
+          borderRadius: 32,
+          overflow: "hidden",
+          boxShadow: "0 30px 80px rgba(15,23,42,0.9)",
+          background:
+            "linear-gradient(145deg, #020617 0, #020617 40%, #0f172a 100%)",
+          border: "1px solid rgba(148,163,184,0.3)",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+          }}
+        >
+          {[
+            { top: 40, left: 80 },
+            { top: 120, right: 60 },
+            { bottom: 80, left: 120 },
+            { bottom: 60, right: 100 },
+          ].map((pos, idx) => (
+            <div
+              key={idx}
+              style={{
+                position: "absolute",
+                width: 76,
+                height: 76,
+                borderRadius: "999px",
+                background:
+                  "radial-gradient(circle at 30% 20%, #fef9c3 0, #facc15 40%, #eab308 70%)",
+                border: "3px solid #fbbf24",
+                boxShadow: "0 0 24px rgba(250,204,21,0.7)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 800,
+                fontSize: 26,
+                color: "#111827",
+                transform: "rotate(-6deg)",
+                ...pos,
+              }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              $
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 24,
+          }}
+        >
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                fontSize: 52,
+                fontWeight: 900,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: "#e5e7eb",
+                textShadow:
+                  "0 0 0 #0f172a, 0 4px 0 #020617, 0 10px 30px rgba(0,0,0,0.9)",
+              }}
+            >
+              GOLD RUSH
+            </div>
+            <div
+              style={{
+                fontSize: 18,
+                fontWeight: 500,
+                marginTop: 6,
+                color: "#9ca3af",
+              }}
+            >
+              Beat the agent. Grow your stack.
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 14,
+              alignItems: "center",
+              width: "100%",
+              maxWidth: 420,
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            <input
+              type="text"
+              placeholder="Enter your trader name"
+              value={playerName}
+              onChange={e => setPlayerName(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "12px 18px",
+                borderRadius: 999,
+                border: "2px solid rgba(148,163,184,0.7)",
+                outline: "none",
+                fontSize: 14,
+                backgroundColor: "#020617",
+                color: "#e5e7eb",
+                boxShadow: "0 0 0 1px rgba(15,23,42,1)",
+              }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+            <Link
+              href={playerName ? `/game?name=${encodeURIComponent(playerName)}` : "/game"}
+              style={{
+                width: "100%",
+                textAlign: "center",
+                padding: "14px 24px",
+                borderRadius: 999,
+                border: "none",
+                background:
+                  "linear-gradient(135deg,#4f46e5,#7c3aed,#ec4899)",
+                boxShadow: "0 18px 40px rgba(88,28,135,0.8)",
+                color: "#f9fafb",
+                fontWeight: 700,
+                fontSize: 18,
+                textDecoration: "none",
+              }}
+            >
+              Start game
+            </Link>
+
+            <Link
+              href="/about"
+              style={{
+                marginTop: 2,
+                fontSize: 13,
+                color: "#a5b4fc",
+                textDecoration: "none",
+                padding: "6px 10px",
+                borderRadius: 999,
+                border: "1px solid rgba(129,140,248,0.5)",
+                background: "rgba(15,23,42,0.9)",
+              }}
+            >
+              About Gold Rush
+            </Link>
+
+            <div
+              style={{
+                fontSize: 12,
+                color: "#e5e7eb",
+                background: "rgba(15,23,42,0.9)",
+                padding: "6px 12px",
+                borderRadius: 999,
+                border: "1px solid rgba(148,163,184,0.5)",
+              }}
+            >
+              You start with {formatDollars(INITIAL_CAPITAL)}. Can you beat the
+              bots
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

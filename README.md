@@ -104,11 +104,11 @@ git clone https://github.com/VarnikaKalani/beat-the-agent
 cd beat-the-agent
 npm install
 npm run dev
-
-----
+```
+---
 
 Visit: https://beat-the-agent.vercel.app/
-
+---
 
 ## Contributors
 

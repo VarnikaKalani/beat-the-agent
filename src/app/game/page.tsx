@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
+
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useBenchmarks } from "./useBenchmarks";
@@ -212,7 +213,7 @@ function strategyColor(label: string, playerName: string): string {
 
 // ---------- main component ----------
 
-export default function GamePage() {
+function GamePageInner() {
   const searchParams = useSearchParams();
   const nameParam = searchParams.get("name");
   const playerName =
@@ -1235,6 +1236,37 @@ const effectiveLen = Math.min(dayIndex + 1, data?.dates.length ?? 0);
   );
 }
 
+export default function GamePage() {
+    return (
+      <Suspense
+        fallback={
+          <main
+            style={{
+              minHeight: "100vh",
+              background:
+                "radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#e5e7eb",
+              fontFamily:
+                "system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+            }}
+          >
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 24, marginBottom: 8 }}>Loading game…</div>
+              <div style={{ fontSize: 13, opacity: 0.7 }}>
+                Preparing the arena
+              </div>
+            </div>
+          </main>
+        }
+      >
+        <GamePageInner />
+      </Suspense>
+    );
+  }
+  
 // ---------- chart component ----------
 
 type TopChartProps = {
